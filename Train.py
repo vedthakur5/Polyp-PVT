@@ -127,6 +127,11 @@ def save_checkpoint(state, filename = "my_checkpoint.pth.tar"):
     print("=>Saving Checkpoint")
     torch.save(state, filename)
 
+def load_checkpoint(checkpoint):
+    print("=>Loading Checkpoint")
+    model.load_state_dict(checkpoint['state_dict'])
+    optimizer.load_state_dict(checkpoint['optimizer'])
+    
 def plot_train(dict_plot=None, name = None):
     color = ['red', 'lawngreen', 'lime', 'gold', 'm', 'plum', 'blue']
     line = ['-', "--"]
@@ -196,6 +201,7 @@ if __name__ == '__main__':
     # ---- build models ----
     # torch.cuda.set_device(0)  # set your gpu device
     model = PolypPVT().cuda()
+    load_model = True
 
     best = 0
 
@@ -215,6 +221,8 @@ if __name__ == '__main__':
     total_step = len(train_loader)
 
     print("#" * 20, "Start Training", "#" * 20)
+    if load_model:
+        load_checkpoint(torch.load("my_checkpoint.pth.tar"))
 
     for epoch in range(1, opt.epoch):
         if epoch == 2:
