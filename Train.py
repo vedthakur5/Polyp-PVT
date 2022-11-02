@@ -121,7 +121,11 @@ def train(train_loader, model, optimizer, epoch, test_path):
             torch.save(model.state_dict(), save_path +str(epoch)+ 'PolypPVT-best.pth')
             print('##############################################################################best', best)
             logging.info('##############################################################################best:{}'.format(best))
-
+            
+       
+def save_checkpoint(state, filename = "my_checkpoint.pth.tar"):
+    print("=>Saving Checkpoint")
+    torch.save(state, filename)
 
 def plot_train(dict_plot=None, name = None):
     color = ['red', 'lawngreen', 'lime', 'gold', 'm', 'plum', 'blue']
@@ -213,6 +217,10 @@ if __name__ == '__main__':
     print("#" * 20, "Start Training", "#" * 20)
 
     for epoch in range(1, opt.epoch):
+        if epoch == 2:
+           checkpoint = {'state_dict' : model.state_dict(), 'optimizer': optimizer.state_dict()}
+           save_checkpoint(checkpoint)
+            
         adjust_lr(optimizer, opt.lr, epoch, 0.1, 200)
         train(train_loader, model, optimizer, epoch, opt.test_path)
     
