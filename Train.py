@@ -222,11 +222,11 @@ if __name__ == '__main__':
 
     print("#" * 20, "Start Training", "#" * 20)
     if load_model:
-        if os.path.isdir('my_checkpoint.pth.tar') == True:
+        if os.path.isfile('my_checkpoint.pth.tar') == True:
             load_checkpoint(torch.load("my_checkpoint.pth.tar"))
 
     for epoch in range(1, opt.epoch):
-        if epoch == 1:
+        if epoch == 2:
            checkpoint = {'state_dict' : model.state_dict(), 'optimizer': optimizer.state_dict()}
            save_checkpoint(checkpoint)
             
